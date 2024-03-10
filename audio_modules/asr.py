@@ -1,19 +1,22 @@
 from vosk import Model, KaldiRecognizer
 import pyaudio
 
-model = Model('./vosk-model-en-us-0.22-lgraph')
-recognizer = KaldiRecognizer(model, 16000)
+def model():
 
-capture = pyaudio.PyAudio()
-stream = capture.open(format=pyaudio.paInt16, channels=1, rate=16000, input=True, frames_per_buffer=8192)
-stream.start_stream()
+    model = Model('./vosk-model-en-us-0.22-lgraph')
+    recognizer = KaldiRecognizer(model, 16000)
 
-while True:
+    capture = pyaudio.PyAudio()
+    stream = capture.open(format=pyaudio.paInt16, channels=1, rate=16000, input=True, frames_per_buffer=8192)
+    stream.start_stream()
 
-    data = stream.read(4096, exception_on_overflow=False)
+    while True:
 
-    if len(data) == 0:
-        break
+        data = stream.read(4096, exception_on_overflow=False)
 
-    if recognizer.AcceptWaveform(data):
-        print(recognizer.Result())
+        if len(data) == 0:
+            break
+
+        if recognizer.AcceptWaveform(data):
+            print(recognizer.Result())
+            return recognizer.Result()
