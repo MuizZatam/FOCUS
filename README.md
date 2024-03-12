@@ -7,3 +7,5 @@
 ### Sprint 1 (Deploying Audio Processing Modules)
 - To deploy an effective speech to text model.
 - To deploy an effective text to speech model.
+
+> Could use Whisper AI for this along with pyttsx3
