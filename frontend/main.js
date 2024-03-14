@@ -3,7 +3,7 @@ const texts = document.querySelector(".texts");
 window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
 const recognition = new SpeechRecognition();
-recognition.interimResults = true;
+recognition.interimResults = false;
 
 let p = document.createElement("p");
 
@@ -15,12 +15,12 @@ recognition.addEventListener("result", (e) => {
   .map((result) => result.transcript)
   .join("");
 
-  p.innerText = text;
+  p.innerText = ">>> " + text;
   
 });
 
 recognition.addEventListener("end", () => {
-    recognition.start();
+  recognition.start();
 });
 
 recognition.start();
