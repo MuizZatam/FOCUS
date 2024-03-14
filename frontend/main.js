@@ -16,6 +16,7 @@ recognition.addEventListener("result", (e) => {
   .join("");
 
   p.innerText = ">>> " + text;
+  eel.tts("You said" + text);
   
 });
 
@@ -24,3 +25,5 @@ recognition.addEventListener("end", () => {
 });
 
 recognition.start();
+
+
