@@ -6,6 +6,8 @@ const recognition = new SpeechRecognition();
 recognition.interimResults = false;
 
 let p = document.createElement("p");
+let o = document.createElement("p")
+
 
 recognition.addEventListener("result", (e) => {
 
@@ -17,13 +19,28 @@ recognition.addEventListener("result", (e) => {
 
   p.innerText = ">>> " + text;
   eel.tts("You said" + text);
-  
+
+  async function response() {
+
+    texts.appendChild(o);
+    let output = await eel.basicInfo(text.toLowerCase())();
+
+    o.innerText = ">>> " + output;
+    eel.tts(output);
+  }
+
+  response();
+
 });
+
+
+
 
 recognition.addEventListener("end", () => {
   recognition.start();
 });
 
 recognition.start();
+
 
 
