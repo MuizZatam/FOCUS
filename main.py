@@ -5,7 +5,7 @@ engine = pyttsx3.init()
 engine.setProperty('rate', 125)
 engine.setProperty('volume',1.0)
 voices = engine.getProperty('voices')
-engine.setProperty('voice', voices[0].id)
+engine.setProperty('voice', voices[1].id)
 
 
 @eel.expose
@@ -20,6 +20,8 @@ def basicInfo(text):
 
     if text == "who are you":
         return "I am FOCUS, your very own friend designed to help you in your day to day tasks!"
+    elif text == "exit":
+        return "exit"
     else:
         return "I didn't quite catch you..."
     

@@ -25,6 +25,11 @@ recognition.addEventListener("result", (e) => {
     texts.appendChild(o);
     let output = await eel.basicInfo(text.toLowerCase())();
 
+    if (output == "exit") {
+
+      window.close();
+    }
+
     o.innerText = ">>> " + output;
     eel.tts(output);
   }
