@@ -45,11 +45,11 @@ def greet():
      
     hour = int(datetime.datetime.now().hour)
     if hour >= 0 and hour < 12:
-        tts("Good Morning!")
+        tts("Good Morning!, always happy to assist")
     elif hour >= 12 and hour < 18:
-        tts("Good Afternoon!")
+        tts("Good Afternoon!, always happy to assist")
     else:
-        tts("Good Evening!")
+        tts("Good Evening!, always happy to assist")
 
 @eel.expose
 
