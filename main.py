@@ -5,6 +5,8 @@ import requests
 import dotenv, os
 import requests
 from time import sleep
+import wikipedia
+import datetime
 
 dotenv.load_dotenv()
 api_key = os.getenv("llm_api_key")
@@ -20,10 +22,10 @@ def query(payload):
 	return answers[1]
 
 engine = pyttsx3.init()
-engine.setProperty('rate', 135)
+engine.setProperty('rate', 150)
 engine.setProperty('volume',1.0)
 voices = engine.getProperty('voices')
-engine.setProperty('voice', voices[1].id)
+engine.setProperty('voice', voices[0].id)
 
 @eel.expose
 def tts(text):
@@ -32,7 +34,25 @@ def tts(text):
     engine.runAndWait()
     engine.stop
 
+
+@eel.expose 
+def reqTimeOut(text):
+
+    return round(len(text.split()) * (1/150))
+
 @eel.expose
+def greet():
+     
+    hour = int(datetime.datetime.now().hour)
+    if hour >= 0 and hour < 12:
+        tts("Good Morning!")
+    elif hour >= 12 and hour < 18:
+        tts("Good Afternoon!")
+    else:
+        tts("Good Evening!")
+
+@eel.expose
+
 def basicInfo(text):
     
     if text == "exit":
@@ -40,8 +60,12 @@ def basicInfo(text):
     
     elif str(text).find("google") == 0:
         returnVal = str(text).replace("google", "")
+        try:
+            result = wikipedia.summary(returnVal, sentences=3)
+        except wikipedia.exceptions.PageError:
+            return "Unable to summarize, source not found!"
         pywhatkit.search(returnVal)
-        return f"Searching for {returnVal} on Google"     
+        return result     
       
     elif str(text).find("search on youtube") == 0:
         returnVal = str(text).replace("search on youtube", "")
@@ -54,9 +78,14 @@ def basicInfo(text):
         except Exception:
              return "I am sorry, I wasn't able to get that"
 
+def osActives(text):
+
+    if "close browser" in text:
+        os.system("taskkill /f /im firefox.exe")
+
 @eel.expose
-def timeout():
-     sleep(5)
+def timeout(time):
+    sleep(time)
 
 eel.init('frontend')
 eel.start('index.html')
