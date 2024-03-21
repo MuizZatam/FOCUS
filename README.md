@@ -2,10 +2,15 @@
 
 **FOCUS** aims to be a full blown desktop application with accesibility features for people with different needs. 
 
-## 📝 Current Development Sprint
+## 📝 Current Development Status
 
-### Sprint 1 (Deploying Audio Processing Modules)
-- To deploy an effective speech to text model.
-- To deploy an effective text to speech model.
+### Completed
 
-> Could use Whisper AI for this along with pyttsx3
+- Complete Frontend functionality
+- Basic backend functions
+    - Google &lt;query&gt;
+    - Search on Youtube &lt;query&gt;
+    - exit
+    - LLM API implementation
+- Other common functional and non functional changes
+
