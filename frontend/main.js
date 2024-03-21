@@ -5,47 +5,52 @@ window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecogn
 const recognition = new SpeechRecognition();
 recognition.interimResults = false;
 
-let p = document.createElement("p");
-let o = document.createElement("p")
+const container = document.querySelector(".container");
+
+let recognizing = false;
 
 
 recognition.addEventListener("result", (e) => {
 
-  texts.appendChild(p);
-  const text = Array.from(e.results)
-  .map((result) => result[0])
-  .map((result) => result.transcript)
-  .join("");
+  if (!recognizing) {
 
-  p.innerText = ">>> " + text;
-  eel.tts("You said" + text);
+    let p = document.createElement("p");
 
-  async function response() {
-
-    texts.appendChild(o);
-    let output = await eel.basicInfo(text.toLowerCase())();
-
-    if (output == "exit") {
-
-      window.close();
+    texts.appendChild(p);
+    const text = Array.from(e.results)
+    .map((result) => result[0])
+    .map((result) => result.transcript)
+    .join("");
+  
+    p.innerText = ">>> " + text;
+  
+    eel.tts("You said" + text)();
+  
+    async function response() {
+  
+      let o = document.createElement("p");
+  
+      texts.appendChild(o);
+      let output = await eel.basicInfo(text.toLowerCase())();
+  
+      if (output == "exit") {
+  
+        window.close();
+      }
+  
+      o.innerText = ">>> " + output;
+      eel.tts(output);
+      recognizing = false;
     }
-
-    o.innerText = ">>> " + output;
-    eel.tts(output);
+  
+    response();  
   }
-
-  response();
-
 });
 
-
-
-
+eel.timeout();
 recognition.addEventListener("end", () => {
+
   recognition.start();
 });
 
 recognition.start();
-
-
-

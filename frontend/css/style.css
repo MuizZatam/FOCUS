@@ -15,7 +15,7 @@ body {
     background-color: #000;
     background-image: url("https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaGM4ZzltYW1rejVqY2R1M29tZWhrZXJzaWozOHFjNHY4OTlqYjg4aSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7bu8qJpjldRYVeE0/giphy.gif");
     background-repeat: no-repeat;
-    background-position-x: center;
+    background-position-x: left;
     background-position-y: center;
 }
 
@@ -44,11 +44,12 @@ section {
 
 section h1 {
 
-    color: rgba(255, 255, 255, 0.322);
+    color: #fff;
     text-align: center;
     width: 100%;
     font-size: 50px;
     margin-bottom: 10px;
+    margin-top: -20px;
 }
   
 section p {
@@ -63,7 +64,7 @@ section p {
 
     width: 90%;
     max-width: 500px;
-    margin: 0 auto;
+    margin-left: 45%;
 }
 
 .texts p {
