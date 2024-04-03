@@ -7,19 +7,13 @@ import requests
 from time import sleep
 import wikipedia
 import datetime
+import google.generativeai as genai
 
 dotenv.load_dotenv()
 api_key = os.getenv("llm_api_key")
+genai.configure(api_key=api_key)
+model = genai.GenerativeModel('gemini-pro')
 
-API_URL = "https://api-inference.huggingface.co/models/mistralai/Mixtral-8x7B-Instruct-v0.1"
-headers = {"Authorization": api_key}
-
-def query(payload):
-	response = requests.post(API_URL, headers=headers, json=payload)
-	response = response.json()[0]
-	response = response["generated_text"]
-	answers = response.split("\n\n")
-	return answers[1]
 
 engine = pyttsx3.init()
 engine.setProperty('rate', 150)
@@ -32,7 +26,7 @@ def tts(text):
 
     engine.say(text)
     engine.runAndWait()
-    engine.stop
+    engine.stop()
 
 
 @eel.expose 
@@ -40,19 +34,21 @@ def reqTimeOut(text):
 
     return round(len(text.split()) * (1/150))
 
+
+     
 @eel.expose
 def greet():
-     
     hour = int(datetime.datetime.now().hour)
     if hour >= 0 and hour < 12:
-        tts("Good Morning!, always happy to assist")
+        greeting = "Good Morning!, always happy to assist"
     elif hour >= 12 and hour < 18:
-        tts("Good Afternoon!, always happy to assist")
+        greeting = "Good Afternoon!, always happy to assist"
     else:
-        tts("Good Evening!, always happy to assist")
+        greeting = "Good Evening!, always happy to assist"
+    return greeting
+
 
 @eel.expose
-
 def basicInfo(text):
     
     if text == "exit":
@@ -74,18 +70,26 @@ def basicInfo(text):
         
     else:
         try:
-            return query({"inputs": "You are FOCUS (Friend Optimized For Comprehensive User Support), Your job is to help the user with day to day desktop tasks, note that the user can be slurry and might make punctuation and spelling mistakes for example - 'hu r u' could be 'Who are you?' and 'what doin' could be 'what do you do?', assume the best case and respond, if you don't have any valid response - just say 'I am sorry, I can't help you with that question, it might be ambiguous....' Keeping this in mind, help the user with the following text whenever possible: " + text })
+            response = model.generate_content("You are FOCUS (Friend Optimized For Comprehensive User Support), Your job is to help the user with day to day desktop tasks, note that the user can be slurry and might make punctuation and spelling mistakes for example - 'hu r u' could be 'Who are you?' and 'what doin' could be 'what do you do?', assume the best case and respond, if you don't have any valid response - just say 'I am sorry, I can't help you with that question, it might be ambiguous....', also use plaintext in response, no markdown and no other formats, Keeping this in mind, help the user with the following text whenever possible: " + text)
+            return response.text
         except Exception:
-             return "I am sorry, I wasn't able to get that"
-
+            return "I am sorry, I wasn't able to get that"
+    
+@eel.expose
 def osActives(text):
 
     if "close browser" in text:
         os.system("taskkill /f /im firefox.exe")
+    elif "open app notepad" in text:
+        npath = "C:\\WINDOWS\\system32\\notepad.exe"
+        os.startfile(npath)
 
 @eel.expose
 def timeout(time):
-    sleep(time)
-
+    try:
+        sleep(time)
+    except TypeError:
+        sleep(5)
+    
 eel.init('frontend')
 eel.start('index.html')

@@ -8,45 +8,47 @@ recognition.interimResults = false;
 const container = document.querySelector(".container");
 
 
-eel.greet()
+async function greet() {
 
-recognition.addEventListener("result", (e) => {
+  await eel.greet();
+}
+
+resp = greet();
+
+
+recognition.addEventListener("result", async (e) => {
 
 
   let p = document.createElement("p");
 
   texts.appendChild(p);
   const text = Array.from(e.results)
-  .map((result) => result[0])
-  .map((result) => result.transcript)
-  .join("");
+    .map((result) => result[0])
+    .map((result) => result.transcript)
+    .join("");
   
   p.innerText = ">>> " + text;
-  
-  eel.tts("You said" + text)();
-  eel.timeout(eel.reqTimeOut(text))
 
-  
-  async function response() {
-  
-    let o = document.createElement("p");
-  
-    texts.appendChild(o);
-    let output = await eel.basicInfo(text.toLowerCase())();
-  
-    if (output == "exit") {
-  
-      window.close();
-    }
-  
-    o.innerText = ">>> " + output;
-    eel.tts(output);
-    eel.timeout(eel.reqTimeOut(output))
+  // Speak only after recognition is complete
+  await eel.tts("You said" + text)();
 
+  let output = await eel.basicInfo(text.toLowerCase())();
+
+  if (output == "exit") {
+
+    window.close();
   }
   
-  response();  
-  
+  if (output.toLowerCase().includes("open app") || output.toLowerCase().includes("close app")) {
+
+    eel.osActives(output);
+    return;
+  }
+
+  o.innerText = ">>> " + output;
+  eel.tts(output)();
+  eel.timeout(eel.reqTimeOut(output))
+
 });
 
 recognition.addEventListener("end", () => {
