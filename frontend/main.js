@@ -43,7 +43,7 @@ recognition.addEventListener("result", async (e) => {
     
       if (text.includes("header")) {
         let headerImg = document.createElement("img");
-        headerImg.setAttribute("src", "./sampleheader.png");
+        headerImg.setAttribute("src", "./email/sampleheader.png");
         texts.appendChild(headerImg);
       }
     
@@ -53,7 +53,7 @@ recognition.addEventListener("result", async (e) => {
     
       if (text.includes("footer")) {
         let footerImg = document.createElement("img");
-        footerImg.setAttribute("src", "./samplefooter.png");
+        footerImg.setAttribute("src", "./email/samplefooter.png");
         texts.appendChild(footerImg);
       }
     }
