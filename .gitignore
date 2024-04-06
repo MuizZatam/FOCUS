@@ -1,4 +1,3 @@
 __pycache__/
 .env
-/header
-/footer
+frontend/email/
