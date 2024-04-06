@@ -7,6 +7,8 @@ import webbrowser
 import ollama
 import pyautogui
 import subprocess
+import base64
+import os
 
 
 # Initialize Eel
@@ -100,5 +102,14 @@ def openApp(appName):
 
     if appName == "notepad":
         subprocess.Popen("notepad.exe")
+
+
+@eel.expose
+def draftEmail(text):
+    prompt = text.replace("use header and footer", "") + "Do not start of with a generic response start, directly start with the content of the letter itself"
+    email = ollama.generate(model="llama2", prompt=prompt)
+
+    return email["response"]
+    
     
 eel.start('index.html')

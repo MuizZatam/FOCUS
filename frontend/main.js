@@ -25,30 +25,48 @@ recognition.addEventListener("result", async (e) => {
   
 
     p.innerText = ">>> " + text;
-    text.replace(wakeWord + " ", "")
+    
+    let command = text.replace(wakeWord + " ", "");
+    command = command.toLowerCase()
 
-    if (text == "exit") {
+    if (command == "exit") {
       window.close();
     }
 
-    else if (text == "start typing") {
-      eel.type(text); 
+    else if (command == "start typing") {
+      eel.type(command); 
     }
 
-    // else if (text == "") {
-    //   eel.openApp(text.replace("open app", ""));
-    // }
+
+    else if (text.includes("write a letter")) {
+      let email = await eel.draftEmail(text)();
+    
+      if (text.includes("header")) {
+        let headerImg = document.createElement("img");
+        headerImg.setAttribute("src", "./sampleheader.png");
+        texts.appendChild(headerImg);
+      }
+    
+      let emailParagraph = document.createElement("p");
+      emailParagraph.innerText = email;
+      texts.appendChild(emailParagraph);
+    
+      if (text.includes("footer")) {
+        let footerImg = document.createElement("img");
+        footerImg.setAttribute("src", "./samplefooter.png");
+        texts.appendChild(footerImg);
+      }
+    }
 
     else {
-      let output = await eel.basicInfo(text)();
+      let output = await eel.basicInfo(command)();
       let o = document.createElement("p");
       o.innerText = ">>> " + output;
       texts.appendChild(o);
-    
+      
     }
-
+  
   }
-
   
 });
 
