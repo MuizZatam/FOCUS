@@ -9,6 +9,7 @@ const wakeWord = "hey focus"
 
 
 eel.greet();  
+// eel.mouse();
 
 recognition.addEventListener("result", async (e) => {
 
@@ -44,16 +45,21 @@ recognition.addEventListener("result", async (e) => {
       if (text.includes("header")) {
         let headerImg = document.createElement("img");
         headerImg.setAttribute("src", "./email/sampleheader.png");
+        headerImg.setAttribute("style", "margin-bottom: -40px")
         texts.appendChild(headerImg);
       }
     
       let emailParagraph = document.createElement("p");
       emailParagraph.innerText = email;
+      emailParagraph.setAttribute("style", "margin-top: 0px")
+      emailParagraph.setAttribute("style", "width:600px")
       texts.appendChild(emailParagraph);
     
       if (text.includes("footer")) {
         let footerImg = document.createElement("img");
         footerImg.setAttribute("src", "./email/samplefooter.png");
+        footerImg.setAttribute("style", "width: 600px");
+        footerImg.setAttribute("style", "margin-top: -19px");
         texts.appendChild(footerImg);
       }
     }
