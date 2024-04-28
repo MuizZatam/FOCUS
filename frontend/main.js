@@ -38,7 +38,6 @@ recognition.addEventListener("result", async (e) => {
       eel.type(command); 
     }
 
-
     else if (text.includes("write a letter")) {
       let email = await eel.draftEmail(text)();
     
