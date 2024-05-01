@@ -5,13 +5,6 @@ import wikipedia
 import datetime
 import webbrowser
 import ollama
-import pyautogui
-import subprocess
-import cv2
-import mediapipe as mp
-import numpy as np
-import pyautogui
-import time
 
 # Initialize Eel
 eel.init('frontend')
@@ -68,42 +61,6 @@ def basicInfo(text):
             return response["response"]
         except Exception:
             pass
-
-@eel.expose
-def type(text):
-
-    while text != "stop typing":
-
-        if text == "copy text":
-            pyautogui.hotkey("ctrl", "c")
-        elif text == "cut text":
-            pyautogui.hotkey("ctrl", "x")
-        elif text == "paste text":
-            pyautogui.hotkey("ctrl", "v")
-        elif text == "undo change":
-            pyautogui.hotkey("ctrl", "z")
-        elif text == "redo change":
-            pyautogui.hotkey("ctrl", "y")
-        elif text == "save this":
-            pyautogui.hotkey("ctrl", "s")
-        elif text == "exit program":
-            pyautogui.hotkey("alt", "f4")
-        elif text == "select line":
-            pyautogui.click(clicks=2, interval=0.25)
-        elif text == "select all":
-            pyautogui.hotkey("ctrl", "a")
-        elif text == "find in this":
-            pyautogui.hotkey("ctrl", "f")
-        elif text == "replace this":
-            pyautogui.hotkey("ctrl", "h")
-        else:
-            pyautogui.typewrite(text)
-    
-@eel.expose
-def openApp(appName):
-
-    if appName == "notepad":
-        subprocess.Popen("notepad.exe")
 
 
 @eel.expose
